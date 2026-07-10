@@ -2,6 +2,13 @@
 //! `statsmodels` RLM on the stack-loss data. Regenerate the fixture with
 //! `scripts/gen_golden_py.py` (see `docs/validation.md`).
 //!
+//! This is **`#[ignore]`d and pending**: statsmodels 
+//!
+//! ```text
+//! python scripts/gen_golden_py.py
+//! cargo test --workspace -- --ignored
+//! ```
+//!
 //! statsmodels centers the residual MAD at **0** while `robust_rs::scale::Mad`
 //! centers it at the **median**, so the two disagree on the scale *value*: a
 //! documented convention, not a bug. To compare the IRLS + Huber-ψ + weighted
@@ -24,6 +31,7 @@ impl ScaleEstimator for FixedScale {
 }
 
 #[test]
+#[ignore = "pending statsmodels fixture; run scripts/gen_golden_py.py"]
 fn huber_m_spine_matches_statsmodels_rlm_on_stackloss() {
     let json = std::fs::read_to_string("tests/fixtures/rlm_stackloss.json")
         .expect("fixture present; regenerate with scripts/gen_golden_py.py");
