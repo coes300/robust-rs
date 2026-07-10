@@ -1,0 +1,37 @@
+[workspace]
+resolver = "2"
+members = ["robust-rs-core", "robust-rs"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.75"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/coes300/robust-rs"
+authors = ["coes300 <matthewbcoe@gmail.com>"]
+keywords = ["statistics", "robust", "regression", "outliers"]
+categories = ["science", "mathematics"]
+
+[workspace.dependencies]
+robust-rs-core = { version = "0.1.0", path = "robust-rs-core" }
+num-traits = "0.2"
+libm = "0.2"
+thiserror = "2"
+ndarray = "0.16"
+ndarray-stats = "0.6"
+faer = "0.22"
+rand = "0.9"
+rand_chacha = "0.9"
+rand_distr = "0.5"
+rayon = "1.10"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+approx = "0.5"
+proptest = "1"
+
+[workspace.lints.rust]
+missing_docs = "warn"
+unsafe_code = "forbid"
+
+[workspace.lints.clippy]
+all = { level = "warn", priority = -1 }

@@ -1,0 +1,51 @@
+[package]
+name = "robust-rs"
+description = "Robust statistics for Rust: M/S/MM regression and robust scale, built on the M-estimator abstraction."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+keywords.workspace = true
+categories.workspace = true
+readme = "README.md"
+documentation = "https://docs.rs/robust-rs"
+
+[lints]
+workspace = true
+
+# docs.rs builds with every feature so the rayon-gated surface is documented.
+[package.metadata.docs.rs]
+all-features = true
+
+[features]
+default = []
+rayon = ["dep:rayon"]
+serde = ["dep:serde"]
+
+[dependencies]
+robust-rs-core.workspace = true
+ndarray.workspace = true
+ndarray-stats.workspace = true
+faer.workspace = true
+libm.workspace = true
+rand.workspace = true
+rand_chacha.workspace = true
+rand_distr.workspace = true
+rayon = { workspace = true, optional = true }
+serde = { workspace = true, optional = true }
+
+[dev-dependencies]
+approx.workspace = true
+proptest.workspace = true
+serde_json.workspace = true
+
+[[example]]
+name = "stars_mm"
+
+[[example]]
+name = "demo"
+
+[[example]]
+name = "mcd_outliers"

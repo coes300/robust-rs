@@ -1,0 +1,9 @@
+/target
+**/*.rs.bk
+.venv/
+__pycache__/
+*.py[cod]
+
+scripts/
+
+robust-rs/tests/fixtures/
