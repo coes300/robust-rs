@@ -2,7 +2,7 @@
 //! `statsmodels` RLM on the stack-loss data. Regenerate the fixture with
 //! `scripts/gen_golden_py.py` (see `docs/validation.md`).
 //!
-//! This is **`#[ignore]`d and pending**: statsmodels 
+//! This is **`#[ignore]`d and pending**: statsmodels
 //!
 //! ```text
 //! python scripts/gen_golden_py.py
