@@ -1,0 +1,42 @@
+[package]
+name = "pyrobust"
+description = "Python bindings for robust-rs: robust statistics (M/S/MM regression, robust scale, MCD/OGK/Tyler covariance and the influence-function theory)."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+keywords.workspace = true
+categories.workspace = true
+readme = "README.md"
+# Not published to crates.io: this crate is distributed as a Python wheel (PyPI),
+# built with maturin. The two library crates it wraps are the crates.io artifacts.
+publish = false
+
+# This crate intentionally does NOT opt into `[lints] workspace = true`: the
+# workspace forbids `unsafe_code`, but the code PyO3's macros expand to is
+# `unsafe`, so the binding sets its own (empty) lint policy.
+
+# The compiled extension is imported as `pyrobust._pyrobust`; the pure-Python
+# `pyrobust` package (py/python/pyrobust/) re-exports from it. Hence the leading
+# underscore here and `module-name = "pyrobust._pyrobust"` in pyproject.toml.
+[lib]
+name = "_pyrobust"
+# `cdylib` is the Python extension module. `rlib` is kept so the crate can also
+# be used from Rust integration tests / benches if ever needed.
+crate-type = ["cdylib", "rlib"]
+
+[features]
+# Standard maturin pattern: `extension-module` is OFF by default so plain
+# `cargo build`/`cargo test` link libpython and work locally, and ON when
+# maturin builds a wheel (see pyproject.toml `[tool.maturin] features`), where
+# the Python symbols are resolved by the host interpreter instead.
+extension-module = ["pyo3/extension-module"]
+
+[dependencies]
+robust-rs.workspace = true
+robust-rs-core.workspace = true
+ndarray.workspace = true
+pyo3 = { version = "0.24", features = ["abi3-py39"] }
+numpy = "0.24"

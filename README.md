@@ -112,12 +112,35 @@ cargo run --example stars_mm       # the classic starsCYG high-leverage example
 cargo run --example mcd_outliers   # multivariate on Brownlee's stackloss data
 ```
 
+## Python
+
+The estimators are also available from Python via [`pyrobust`](py/README.md), a
+PyO3 + numpy binding in the `py/` crate:
+
+```python
+import numpy as np
+import pyrobust as pr
+
+x_raw, y = pr.datasets.stars_cyg()
+X = np.column_stack([np.ones(len(y)), x_raw[:, 0]])   # prepend an intercept
+mm = pr.MMEstimator(seed=1).fit(X, y)                 # R's lmrob default
+mm.coefficients                                       # main-sequence slope recovered
+mm.gaussian_efficiency()                              # ~0.95
+
+pr.Mcd(seed=1).fit(pr.datasets.stackloss()[0]).outliers(0.975)
+```
+
+Build it with [maturin](https://www.maturin.rs): `maturin develop -m py/Cargo.toml`.
+See [`py/README.md`](py/README.md) for the full API.
+
 ## Workspace
 
 - **`robust-rs-core`**: losses, robust scale and the influence/variance/efficiency
   theory. No linear-algebra dependency; usable on its own and on `wasm32`.
 - **`robust-rs`**: the location, regression and multivariate estimators, built on
   the core.
+- **`py`** (`pyrobust`): the Python extension, wrapping `robust-rs` with a numpy
+  interface. PyO3 lives only here, never in the two library crates.
 
 ## Status
 
@@ -137,8 +160,9 @@ through a physically positive relationship, because four giant stars sit at high
 leverage with small residuals; `MMEstimator` recovers the positive slope and drives the
 four giants to zero weight.
 
-**Planned (v0.2+):** robust PCA, cellwise-outlier tooling, an optional LAPACK backend,
-and a `pyrobust` PyO3 binding.
+Python bindings ship in the `py/` crate ([`pyrobust`](py/README.md)).
+
+**Planned (v0.2+):** robust PCA, cellwise-outlier tooling and an optional LAPACK backend.
 
 ## License
 

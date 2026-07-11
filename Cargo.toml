@@ -1,6 +1,12 @@
 [workspace]
 resolver = "2"
-members = ["robust-rs-core", "robust-rs"]
+members = ["robust-rs-core", "robust-rs", "py"]
+# `py` (pyrobust) is a Python extension: without its `extension-module` feature a
+# plain `cargo build` links libpython, which the pure-Rust workflow shouldn't
+# require. Excluding it from the default set makes a bare `cargo build`/`test`/
+# `clippy` at the repo root match CI's `rust` job (which passes `--exclude
+# pyrobust`). Build it explicitly with `-p pyrobust` or via maturin.
+default-members = ["robust-rs-core", "robust-rs"]
 
 [workspace.package]
 version = "0.1.0"
@@ -14,6 +20,7 @@ categories = ["science", "mathematics"]
 
 [workspace.dependencies]
 robust-rs-core = { version = "0.1.0", path = "robust-rs-core" }
+robust-rs = { version = "0.1.0", path = "robust-rs" }
 num-traits = "0.2"
 libm = "0.2"
 thiserror = "2"

@@ -1,0 +1,44 @@
+[build-system]
+requires = ["maturin>=1.5,<2"]
+build-backend = "maturin"
+
+[project]
+name = "pyrobust"
+version = "0.1.0"
+description = "Robust statistics for Python: M/S/MM regression, robust scale and MCD/OGK/Tyler covariance; Rust-powered bindings to robust-rs."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT OR Apache-2.0" }
+authors = [{ name = "coes300", email = "matthewbcoe@gmail.com" }]
+keywords = ["statistics", "robust", "regression", "outliers", "covariance"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "License :: OSI Approved :: Apache Software License",
+]
+dependencies = ["numpy>=1.21"]
+
+[project.urls]
+Repository = "https://github.com/coes300/robust-rs"
+Documentation = "https://docs.rs/robust-rs"
+
+[project.optional-dependencies]
+# scikit-learn / statsmodels / scipy drive the in-process cross-reference tests
+# (MCD vs MinCovDet, Huber vs RLM); they're skipped if absent.
+test = ["pytest>=7", "scikit-learn", "statsmodels", "scipy"]
+
+[tool.maturin]
+# The compiled extension is `pyrobust._pyrobust`; the pure-Python package under
+# `python/pyrobust/` re-exports it and adds the CamelCase loss/scale aliases.
+module-name = "pyrobust._pyrobust"
+python-source = "python"
+# Enable the crate's `extension-module` feature (⇒ `pyo3/extension-module`) so
+# the wheel resolves Python symbols against the host interpreter rather than
+# linking libpython. Kept out of the crate's default features so plain
+# `cargo build`/`cargo test` still work for Rust-side development.
+features = ["extension-module"]
