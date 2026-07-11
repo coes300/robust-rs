@@ -1,4 +1,4 @@
-"""Type stubs for the compiled ``robust_py._robust_py`` extension module."""
+"""Type stubs for the compiled ``robustat_py._robustat_py`` extension module."""
 
 from types import ModuleType
 from typing import NoReturn, Sequence

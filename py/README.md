@@ -1,4 +1,4 @@
-# robust-py
+# robustat-py
 
 Robust statistics for Python: Rust-powered bindings to
 [`robust-rs`](https://docs.rs/robust-rs). M/S/MM regression, robust scale,
@@ -12,7 +12,7 @@ The numerics run in compiled Rust (via [PyO3](https://pyo3.rs) and
 ## Install
 
 ```console
-pip install robust-py
+pip install robustat-py
 ```
 
 ### From source (this repo)
@@ -30,7 +30,7 @@ maturin build  -m py/Cargo.toml --release
 
 ```python
 import numpy as np
-import robust_py as rp
+import robustat_py as rp
 
 # --- Robust regression -------------------------------------------------------
 # starsCYG: four giant stars flip the OLS slope negative; MM recovers the
@@ -87,10 +87,10 @@ and `gaussian_efficiency()/asymptotic_variance()/influence()`.
 **Scales**: `Mad()`, `Qn()`, `Sn()`, `HuberProposal2()`. Every `loss`/`scale`
 argument also accepts a name string (`"huber"`, `"tukey"`, `"mad"`, `"qn"`, …).
 
-**Datasets**: `robust_py.datasets.stackloss()`, `robust_py.datasets.stars_cyg()`
+**Datasets**: `robustat_py.datasets.stackloss()`, `robustat_py.datasets.stars_cyg()`
 (each returns `(X, y)` with predictors only; prepend your own intercept column).
 
-Errors surface as `robust_py.RobustError` (a `ValueError` subclass).
+Errors surface as `robustat_py.RobustError` (a `ValueError` subclass).
 
 ## License
 

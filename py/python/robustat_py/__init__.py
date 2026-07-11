@@ -1,6 +1,6 @@
 """Robust statistics for Python.
 
-``robust_py`` wraps the Rust crate `robust-rs
+``robustat_py`` wraps the Rust crate `robust-rs
 <https://docs.rs/robust-rs>`_: M/S/MM regression, robust scale, robust
 multivariate location–scatter (MCD, OGK, Tyler) and the influence-function
 sampling theory, all with a numpy interface.
@@ -9,7 +9,7 @@ The API is class-based for the configurable estimators (build one, then call
 ``.fit``) and functional for the parameter-free ones::
 
     import numpy as np
-    import robust_py as rp
+    import robustat_py as rp
 
     # High-breakdown, high-efficiency regression (R's lmrob default).
     X, y = rp.datasets.stars_cyg()
@@ -33,7 +33,7 @@ from __future__ import annotations
 
 import sys as _sys
 
-from ._robust_py import (  # noqa: F401  (re-exported)
+from ._robustat_py import (  # noqa: F401  (re-exported)
     __version__,
     # exception
     RobustError,
@@ -93,8 +93,8 @@ from ._robust_py import (  # noqa: F401  (re-exported)
     datasets,
 )
 
-# `import robust_py.datasets` and `rp.datasets.stackloss()` both work.
-_sys.modules.setdefault("robust_py.datasets", datasets)
+# `import robustat_py.datasets` and `rp.datasets.stackloss()` both work.
+_sys.modules.setdefault("robustat_py.datasets", datasets)
 
 # CamelCase aliases: `rp.Huber(1.345)` reads like a class while calling the
 # underlying factory. Each returns a `Loss` / `ScaleEstimator`.

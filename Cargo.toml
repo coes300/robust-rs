@@ -1,11 +1,11 @@
 [workspace]
 resolver = "2"
 members = ["robust-rs-core", "robust-rs", "py"]
-# `py` (robust-py) is a Python extension: without its `extension-module` feature a
+# `py` (robustat-py) is a Python extension: without its `extension-module` feature a
 # plain `cargo build` links libpython, which the pure-Rust workflow shouldn't
 # require. Excluding it from the default set makes a bare `cargo build`/`test`/
 # `clippy` at the repo root match CI's `rust` job (which passes `--exclude
-# robust-py`). Build it explicitly with `-p robust-py` or via maturin.
+# robustat-py`). Build it explicitly with `-p robustat-py` or via maturin.
 default-members = ["robust-rs-core", "robust-rs"]
 
 [workspace.package]

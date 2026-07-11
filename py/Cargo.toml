@@ -1,5 +1,5 @@
 [package]
-name = "robust-py"
+name = "robustat-py"
 description = "Python bindings for robust-rs: robust statistics (M/S/MM regression, robust scale, MCD/OGK/Tyler covariance and the influence-function theory)."
 version.workspace = true
 edition.workspace = true
@@ -18,11 +18,11 @@ publish = false
 # workspace forbids `unsafe_code`, but the code PyO3's macros expand to is
 # `unsafe`, so the binding sets its own (empty) lint policy.
 
-# The compiled extension is imported as `robust_py._robust_py`; the pure-Python
-# `robust_py` package (py/python/robust_py/) re-exports from it. Hence the leading
-# underscore here and `module-name = "robust_py._robust_py"` in pyproject.toml.
+# The compiled extension is imported as `robustat_py._robustat_py`; the pure-Python
+# `robustat_py` package (py/python/robustat_py/) re-exports from it. Hence the leading
+# underscore here and `module-name = "robustat_py._robustat_py"` in pyproject.toml.
 [lib]
-name = "_robust_py"
+name = "_robustat_py"
 # `cdylib` is the Python extension module. `rlib` is kept so the crate can also
 # be used from Rust integration tests / benches if ever needed.
 crate-type = ["cdylib", "rlib"]

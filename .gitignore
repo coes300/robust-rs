@@ -4,7 +4,7 @@
 __pycache__/
 *.py[cod]
 
-# Python build / test artifacts (robust-py)
+# Python build / test artifacts (robustat-py)
 *.so
 .pytest_cache/
 *.egg-info/

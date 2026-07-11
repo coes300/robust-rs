@@ -14,7 +14,7 @@ use crate::scale::coerce_scale;
 
 /// A fitted robust location–scatter pair (shared by :class:`Ogk` and
 /// :class:`MScatter`).
-#[pyclass(name = "ScatterFit", module = "robust_py", frozen)]
+#[pyclass(name = "ScatterFit", module = "robustat_py", frozen)]
 pub struct ScatterFit {
     inner: mv::ScatterFit,
 }
@@ -52,7 +52,7 @@ impl ScatterFit {
 }
 
 /// A fitted Minimum Covariance Determinant estimate.
-#[pyclass(name = "McdFit", module = "robust_py", frozen)]
+#[pyclass(name = "McdFit", module = "robustat_py", frozen)]
 pub struct McdFit {
     inner: mv::McdFit,
 }
@@ -121,7 +121,7 @@ impl McdFit {
 
 /// A fitted Tyler shape estimate (shape only; distances rank but are not
 /// χ²-calibrated).
-#[pyclass(name = "TylerFit", module = "robust_py", frozen)]
+#[pyclass(name = "TylerFit", module = "robustat_py", frozen)]
 pub struct TylerFit {
     inner: mv::TylerFit,
 }
@@ -153,7 +153,7 @@ impl TylerFit {
 
 /// FAST-MCD: affine-equivariant, 50%-breakdown robust covariance, reweighted
 /// (RMCD) by default. Reproducible by default; set ``seed`` for another run.
-#[pyclass(name = "Mcd", module = "robust_py", frozen)]
+#[pyclass(name = "Mcd", module = "robustat_py", frozen)]
 pub struct Mcd {
     coverage: Option<f64>,
     n_subsamples: usize,
@@ -204,7 +204,7 @@ impl Mcd {
 
 /// OGK: a fast, deterministic, positive-definite robust covariance. ``scale``
 /// defaults to ``Qn``.
-#[pyclass(name = "Ogk", module = "robust_py", frozen)]
+#[pyclass(name = "Ogk", module = "robustat_py", frozen)]
 pub struct Ogk {
     scale: AnyScale,
     n_iter: usize,
@@ -238,7 +238,7 @@ impl Ogk {
 /// A monotone M-estimator of location and scatter (low breakdown ≈ ``1/(p+1)``;
 /// the multivariate analogue of regression M-estimation). ``loss`` defaults to
 /// Huber.
-#[pyclass(name = "MScatter", module = "robust_py", frozen)]
+#[pyclass(name = "MScatter", module = "robustat_py", frozen)]
 pub struct MScatter {
     loss: AnyLoss,
     control: Control,
@@ -268,7 +268,7 @@ impl MScatter {
 /// Tyler's distribution-free M-estimator of *shape* (unit determinant). A robust
 /// centre may be supplied via ``location``; the default is the coordinatewise
 /// median.
-#[pyclass(name = "Tyler", module = "robust_py", frozen)]
+#[pyclass(name = "Tyler", module = "robustat_py", frozen)]
 pub struct Tyler {
     location: Option<Vec<f64>>,
     control: Control,

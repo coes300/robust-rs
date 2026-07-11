@@ -16,7 +16,7 @@ Two kinds of check that ``cargo`` cannot see:
 import numpy as np
 import pytest
 
-import robust_py as rp
+import robustat_py as rp
 
 # --- Reference values from an independent Rust run (robust-rs, not the binding).
 #     M-Huber and MM on starsCYG (X = [1, log.Te]); MCD location on stackloss.

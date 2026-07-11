@@ -3,7 +3,7 @@ requires = ["maturin>=1.5,<2"]
 build-backend = "maturin"
 
 [project]
-name = "robust-py"
+name = "robustat-py"
 version = "0.1.0"
 description = "Robust statistics for Python: M/S/MM regression, robust scale and MCD/OGK/Tyler covariance; Rust-powered bindings to robust-rs."
 readme = "README.md"
@@ -33,9 +33,9 @@ Documentation = "https://docs.rs/robust-rs"
 test = ["pytest>=7", "scikit-learn", "statsmodels", "scipy"]
 
 [tool.maturin]
-# The compiled extension is `robust_py._robust_py`; the pure-Python package under
-# `python/robust_py/` re-exports it and adds the CamelCase loss/scale aliases.
-module-name = "robust_py._robust_py"
+# The compiled extension is `robustat_py._robustat_py`; the pure-Python package under
+# `python/robustat_py/` re-exports it and adds the CamelCase loss/scale aliases.
+module-name = "robustat_py._robustat_py"
 python-source = "python"
 # Enable the crate's `extension-module` feature (⇒ `pyo3/extension-module`) so
 # the wheel resolves Python symbols against the host interpreter rather than

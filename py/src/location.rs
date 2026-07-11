@@ -13,7 +13,7 @@ use crate::loss::coerce_loss;
 use crate::scale::coerce_scale;
 
 /// A fitted M-estimate of location.
-#[pyclass(module = "robust_py", frozen)]
+#[pyclass(module = "robustat_py", frozen)]
 pub struct LocationFit {
     inner: loc::LocationFit,
 }
@@ -46,7 +46,7 @@ impl LocationFit {
 }
 
 /// A Hodges–Lehmann location estimate (median of the Walsh averages).
-#[pyclass(module = "robust_py", frozen)]
+#[pyclass(module = "robustat_py", frozen)]
 pub struct HodgesLehmannFit {
     inner: loc::HodgesLehmannFit,
 }

@@ -114,12 +114,12 @@ cargo run --example mcd_outliers   # multivariate on Brownlee's stackloss data
 
 ## Python
 
-The estimators are also available from Python via [`robust-py`](py/README.md), a
+The estimators are also available from Python via [`robustat-py`](py/README.md), a
 PyO3 + numpy binding in the `py/` crate:
 
 ```python
 import numpy as np
-import robust_py as rp
+import robustat_py as rp
 
 x_raw, y = rp.datasets.stars_cyg()
 X = np.column_stack([np.ones(len(y)), x_raw[:, 0]])   # prepend an intercept
@@ -139,7 +139,7 @@ See [`py/README.md`](py/README.md) for the full API.
   theory. No linear-algebra dependency; usable on its own and on `wasm32`.
 - **`robust-rs`**: the location, regression and multivariate estimators, built on
   the core.
-- **`py`** (`robust-py`): the Python extension, wrapping `robust-rs` with a numpy
+- **`py`** (`robustat-py`): the Python extension, wrapping `robust-rs` with a numpy
   interface. PyO3 lives only here, never in the two library crates.
 
 ## Status
@@ -160,7 +160,7 @@ through a physically positive relationship, because four giant stars sit at high
 leverage with small residuals; `MMEstimator` recovers the positive slope and drives the
 four giants to zero weight.
 
-Python bindings ship in the `py/` crate ([`robust-py`](py/README.md)).
+Python bindings ship in the `py/` crate ([`robustat-py`](py/README.md)).
 
 **Planned (v0.2+):** robust PCA, cellwise-outlier tooling and an optional LAPACK backend.
 

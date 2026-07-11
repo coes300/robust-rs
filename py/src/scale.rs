@@ -13,7 +13,7 @@ use crate::error::IntoPyResult;
 ///
 /// Construct one with a factory: :func:`mad`, :func:`qn`, :func:`sn`,
 /// :func:`huber_proposal2` (or the aliases ``Mad``, ``Qn``, ``Sn`` …).
-#[pyclass(name = "ScaleEstimator", module = "robust_py", frozen)]
+#[pyclass(name = "ScaleEstimator", module = "robustat_py", frozen)]
 #[derive(Clone)]
 pub struct PyScale {
     pub(crate) inner: AnyScale,

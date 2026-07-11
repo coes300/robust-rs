@@ -9,7 +9,7 @@ Run after building the extension into the current environment::
 import numpy as np
 import pytest
 
-import robust_py as rp
+import robustat_py as rp
 
 
 def test_version_and_exports():
