@@ -1,4 +1,4 @@
-"""Type stubs for the ``pyrobust.datasets`` submodule."""
+"""Type stubs for the ``robust_py.datasets`` submodule."""
 
 import numpy as np
 from numpy.typing import NDArray

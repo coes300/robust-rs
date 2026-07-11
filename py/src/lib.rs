@@ -2,8 +2,8 @@
 //! statistics (M/S/MM regression, robust scale, MCD/OGK/Tyler covariance and
 //! the influence-function theory).
 //!
-//! This crate is the compiled extension `pyrobust._pyrobust`; the pure-Python
-//! `pyrobust` package re-exports its contents (and adds the CamelCase loss/scale
+//! This crate is the compiled extension `robust_py._robust_py`; the pure-Python
+//! `robust_py` package re-exports its contents (and adds the CamelCase loss/scale
 //! aliases). See `py/README.md` for the user-facing API.
 
 use pyo3::prelude::*;
@@ -19,9 +19,9 @@ mod regression;
 mod scale;
 
 /// The compiled extension module. Registered classes and functions are surfaced
-/// to users through the `pyrobust` Python package.
+/// to users through the `robust_py` Python package.
 #[pymodule]
-fn _pyrobust(py: Python<'_>, m: &Bound<'_, PyModule>) -> PyResult<()> {
+fn _robust_py(py: Python<'_>, m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add("__version__", env!("CARGO_PKG_VERSION"))?;
     m.add("RobustError", py.get_type::<error::RobustError>())?;
 
@@ -84,14 +84,14 @@ fn _pyrobust(py: Python<'_>, m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(multivariate::outlier_flags, m)?)?;
 
     // `datasets` submodule. Registered in sys.modules so `import
-    // pyrobust.datasets` works even against the bare compiled extension.
+    // robust_py.datasets` works even against the bare compiled extension.
     let ds = PyModule::new(py, "datasets")?;
     ds.add_function(wrap_pyfunction!(datasets::stackloss, &ds)?)?;
     ds.add_function(wrap_pyfunction!(datasets::stars_cyg, &ds)?)?;
     m.add_submodule(&ds)?;
     py.import("sys")?
         .getattr("modules")?
-        .set_item("pyrobust.datasets", &ds)?;
+        .set_item("robust_py.datasets", &ds)?;
 
     Ok(())
 }

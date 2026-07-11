@@ -36,7 +36,7 @@ fn mad_default() -> AnyScale {
 ///    or sent to another process (e.g. ``multiprocessing``); doing so raises.
 ///    Read its arrays out first if you need to move results across threads. The
 ///    other fit types (:class:`LtsFit`, scatter fits, …) have no such limit.
-#[pyclass(name = "RegressionFit", module = "pyrobust", unsendable)]
+#[pyclass(name = "RegressionFit", module = "robust_py", unsendable)]
 pub struct RegressionFit {
     inner: robust_rs::estimator::RegressionFit,
 }
@@ -102,7 +102,7 @@ impl RegressionFit {
 }
 
 /// A fitted Least Trimmed Squares regression.
-#[pyclass(name = "LtsFit", module = "pyrobust", frozen)]
+#[pyclass(name = "LtsFit", module = "robust_py", frozen)]
 pub struct LtsFit {
     inner: reg::LtsFit,
 }
@@ -165,7 +165,7 @@ impl LtsFit {
 }
 
 /// A fitted Theil–Sen simple-regression line ``y ≈ intercept + slope·x``.
-#[pyclass(name = "TheilSenFit", module = "pyrobust", frozen)]
+#[pyclass(name = "TheilSenFit", module = "robust_py", frozen)]
 pub struct TheilSenFit {
     inner: reg::TheilSenFit,
 }
@@ -212,7 +212,7 @@ impl TheilSenFit {
 /// outliers may also sit in ``X``.
 ///
 /// ``loss`` defaults to Huber (k=1.345), ``scale`` to the MAD.
-#[pyclass(name = "MEstimator", module = "pyrobust", frozen)]
+#[pyclass(name = "MEstimator", module = "robust_py", frozen)]
 pub struct MEstimator {
     loss: AnyLoss,
     scale: AnyScale,
@@ -258,7 +258,7 @@ impl MEstimator {
 /// S-estimator (FAST-S): 50% breakdown by minimising a robust M-scale of the
 /// residuals. Lower efficiency than MM (which builds on it). Reproducible by
 /// default; set ``seed`` for a different reproducible run.
-#[pyclass(name = "SEstimator", module = "pyrobust", frozen)]
+#[pyclass(name = "SEstimator", module = "robust_py", frozen)]
 pub struct SEstimator {
     loss: AnyLoss,
     delta: Option<f64>,
@@ -314,7 +314,7 @@ impl SEstimator {
 /// MM-estimator (R's ``lmrob`` default): an S-stage init + a redescending
 /// fixed-scale M-step, giving 50% breakdown **and** ≈ 95% efficiency. Start here
 /// for regression when contamination may sit in ``X`` as well as ``y``.
-#[pyclass(name = "MMEstimator", module = "pyrobust", frozen)]
+#[pyclass(name = "MMEstimator", module = "robust_py", frozen)]
 pub struct MMEstimator {
     s_loss: AnyLoss,
     m_loss: AnyLoss,
@@ -366,7 +366,7 @@ impl MMEstimator {
 
 /// Least Trimmed Squares (FAST-LTS): a high-breakdown initializer that minimises
 /// the sum of the ``h`` smallest squared residuals.
-#[pyclass(name = "Lts", module = "pyrobust", frozen)]
+#[pyclass(name = "Lts", module = "robust_py", frozen)]
 pub struct Lts {
     coverage: Option<f64>,
     n_subsamples: usize,

@@ -1,6 +1,6 @@
 """Robust statistics for Python.
 
-``pyrobust`` wraps the Rust crate `robust-rs
+``robust_py`` wraps the Rust crate `robust-rs
 <https://docs.rs/robust-rs>`_: M/S/MM regression, robust scale, robust
 multivariate location–scatter (MCD, OGK, Tyler) and the influence-function
 sampling theory, all with a numpy interface.
@@ -9,31 +9,31 @@ The API is class-based for the configurable estimators (build one, then call
 ``.fit``) and functional for the parameter-free ones::
 
     import numpy as np
-    import pyrobust as pr
+    import robust_py as rp
 
     # High-breakdown, high-efficiency regression (R's lmrob default).
-    X, y = pr.datasets.stars_cyg()
+    X, y = rp.datasets.stars_cyg()
     X = np.column_stack([np.ones(len(y)), X[:, 0]])   # prepend intercept
-    fit = pr.MMEstimator(seed=1).fit(X, y)
+    fit = rp.MMEstimator(seed=1).fit(X, y)
     fit.coefficients            # -> np.ndarray, main-sequence slope recovered
     fit.gaussian_efficiency()   # ~0.95
 
     # Robust covariance + multivariate outlier flags.
-    Xs, _ = pr.datasets.stackloss()
-    mcd = pr.Mcd(seed=1).fit(Xs)
+    Xs, _ = rp.datasets.stackloss()
+    mcd = rp.Mcd(seed=1).fit(Xs)
     mcd.outliers(0.975)
 
 Losses and scales are created with factory callables that double as their
-familiar names: ``pr.Huber(1.345)``, ``pr.Tukey(4.685)``, ``pr.Mad()``,
-``pr.Qn()`` … Every estimator argument that takes a loss or scale also accepts a
-lowercase name string, e.g. ``pr.MEstimator(loss="huber", scale="mad")``.
+familiar names: ``rp.Huber(1.345)``, ``rp.Tukey(4.685)``, ``rp.Mad()``,
+``rp.Qn()`` … Every estimator argument that takes a loss or scale also accepts a
+lowercase name string, e.g. ``rp.MEstimator(loss="huber", scale="mad")``.
 """
 
 from __future__ import annotations
 
 import sys as _sys
 
-from ._pyrobust import (  # noqa: F401  (re-exported)
+from ._robust_py import (  # noqa: F401  (re-exported)
     __version__,
     # exception
     RobustError,
@@ -93,10 +93,10 @@ from ._pyrobust import (  # noqa: F401  (re-exported)
     datasets,
 )
 
-# `import pyrobust.datasets` and `pr.datasets.stackloss()` both work.
-_sys.modules.setdefault("pyrobust.datasets", datasets)
+# `import robust_py.datasets` and `rp.datasets.stackloss()` both work.
+_sys.modules.setdefault("robust_py.datasets", datasets)
 
-# CamelCase aliases: `pr.Huber(1.345)` reads like a class while calling the
+# CamelCase aliases: `rp.Huber(1.345)` reads like a class while calling the
 # underlying factory. Each returns a `Loss` / `ScaleEstimator`.
 LeastSquares = least_squares
 L1 = l1

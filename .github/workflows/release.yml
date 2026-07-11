@@ -1,4 +1,4 @@
-# Build the pyrobust wheels + sdist for every supported platform and publish them
+# Build the robust-py wheels + sdist for every supported platform and publish them
 # to PyPI. Runs on a version tag push (e.g. `v0.1.0`); use `workflow_dispatch` to
 # build the artifacts without publishing.
 #

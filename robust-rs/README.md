@@ -138,7 +138,7 @@ leverage with small residuals; `MMEstimator` recovers the positive slope and dri
 four giants to zero weight.
 
 **Planned (v0.2+):** robust PCA, cellwise-outlier tooling, an optional LAPACK backend,
-and a `pyrobust` PyO3 binding.
+and a `robust-py` PyO3 binding.
 
 ## License
 

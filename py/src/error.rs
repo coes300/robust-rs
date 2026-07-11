@@ -7,7 +7,7 @@ use pyo3::prelude::*;
 use robust_rs_core::error::RobustError as CoreError;
 
 create_exception!(
-    pyrobust,
+    robust_py,
     RobustError,
     PyValueError,
     "Raised by robust estimation routines on invalid input or a failed fit."

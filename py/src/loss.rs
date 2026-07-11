@@ -20,7 +20,7 @@ const QUAD: usize = 128;
 ///
 /// Construct one with a factory: :func:`huber`, :func:`tukey`, :func:`l1`, … (or
 /// their capitalised aliases ``Huber``, ``Tukey`` …).
-#[pyclass(name = "Loss", module = "pyrobust", frozen)]
+#[pyclass(name = "Loss", module = "robust_py", frozen)]
 #[derive(Clone)]
 pub struct Loss {
     pub(crate) inner: AnyLoss,

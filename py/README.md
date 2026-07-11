@@ -1,4 +1,4 @@
-# pyrobust
+# robust-py
 
 Robust statistics for Python: Rust-powered bindings to
 [`robust-rs`](https://docs.rs/robust-rs). M/S/MM regression, robust scale,
@@ -12,7 +12,7 @@ The numerics run in compiled Rust (via [PyO3](https://pyo3.rs) and
 ## Install
 
 ```console
-pip install pyrobust
+pip install robust-py
 ```
 
 ### From source (this repo)
@@ -30,34 +30,34 @@ maturin build  -m py/Cargo.toml --release
 
 ```python
 import numpy as np
-import pyrobust as pr
+import robust_py as rp
 
 # --- Robust regression -------------------------------------------------------
 # starsCYG: four giant stars flip the OLS slope negative; MM recovers the
 # physical positive slope and rejects them (R's lmrob default).
-x_raw, y = pr.datasets.stars_cyg()
+x_raw, y = rp.datasets.stars_cyg()
 X = np.column_stack([np.ones(len(y)), x_raw[:, 0]])   # prepend an intercept
 
-mm = pr.MMEstimator(seed=1).fit(X, y)     # 50% breakdown AND ~95% efficiency
+mm = rp.MMEstimator(seed=1).fit(X, y)     # 50% breakdown AND ~95% efficiency
 mm.coefficients                           # -> np.ndarray; slope > 0
 mm.gaussian_efficiency()                  # ~0.95
 mm.breakdown_point                        # 0.5
 
 # Outliers only in y? A plain M-estimator is cheaper (but 0 breakdown vs leverage):
-fit = pr.MEstimator(pr.Huber(), pr.Mad()).fit(X, y)
+fit = rp.MEstimator(rp.Huber(), rp.Mad()).fit(X, y)
 fit.weights                               # near 0 for down-weighted rows
 
 # --- Robust covariance / multivariate outliers -------------------------------
-Xs, _ = pr.datasets.stackloss()
-mcd = pr.Mcd(seed=1).fit(Xs)              # FAST-MCD, affine equivariant
+Xs, _ = rp.datasets.stackloss()
+mcd = rp.Mcd(seed=1).fit(Xs)              # FAST-MCD, affine equivariant
 mcd.outliers(0.975)                       # bool per row, χ² cutoff
 mcd.location, mcd.scatter
 
 # --- Robust location & scale -------------------------------------------------
 data = [2.1, 2.3, 1.9, 2.0, 2.2, 47.0]    # one gross outlier
-pr.m_location(data).estimate              # ~2.16, not the mean (~9.58)
-pr.Mad().scale(data)
-pr.hodges_lehmann(data).estimate
+rp.m_location(data).estimate              # ~2.16, not the mean (~9.58)
+rp.Mad().scale(data)
+rp.hodges_lehmann(data).estimate
 ```
 
 ## API at a glance
@@ -87,10 +87,10 @@ and `gaussian_efficiency()/asymptotic_variance()/influence()`.
 **Scales**: `Mad()`, `Qn()`, `Sn()`, `HuberProposal2()`. Every `loss`/`scale`
 argument also accepts a name string (`"huber"`, `"tukey"`, `"mad"`, `"qn"`, …).
 
-**Datasets**: `pyrobust.datasets.stackloss()`, `pyrobust.datasets.stars_cyg()`
+**Datasets**: `robust_py.datasets.stackloss()`, `robust_py.datasets.stars_cyg()`
 (each returns `(X, y)` with predictors only; prepend your own intercept column).
 
-Errors surface as `pyrobust.RobustError` (a `ValueError` subclass).
+Errors surface as `robust_py.RobustError` (a `ValueError` subclass).
 
 ## License
 

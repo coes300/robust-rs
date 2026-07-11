@@ -16,7 +16,7 @@ Two kinds of check that ``cargo`` cannot see:
 import numpy as np
 import pytest
 
-import pyrobust as pr
+import robust_py as rp
 
 # --- Reference values from an independent Rust run (robust-rs, not the binding).
 #     M-Huber and MM on starsCYG (X = [1, log.Te]); MCD location on stackloss.
@@ -29,36 +29,36 @@ RUST_TUKEY_EFF = 0.94999730616566225
 
 
 def _stars():
-    x_raw, y = pr.datasets.stars_cyg()
+    x_raw, y = rp.datasets.stars_cyg()
     return np.column_stack([np.ones(len(y)), x_raw[:, 0]]), y
 
 
 class TestCrossLanguageEquivalence:
     def test_m_huber_matches_rust(self):
         x, y = _stars()
-        beta = pr.MEstimator(pr.Huber(), pr.Mad()).fit(x, y).coefficients
+        beta = rp.MEstimator(rp.Huber(), rp.Mad()).fit(x, y).coefficients
         np.testing.assert_allclose(beta, RUST_M_HUBER, rtol=0, atol=1e-12)
 
     def test_mm_matches_rust_bitwise(self):
         # MM is randomized but reproducible from its seed; Python calls the same
         # seeded Rust code, so it must agree to full f64 precision.
         x, y = _stars()
-        fit = pr.MMEstimator(seed=1).fit(x, y)
+        fit = rp.MMEstimator(seed=1).fit(x, y)
         np.testing.assert_allclose(fit.coefficients, RUST_MM_SEED1, rtol=0, atol=1e-12)
         assert fit.gaussian_efficiency() == pytest.approx(RUST_MM_SEED1_EFF, abs=1e-12)
 
     def test_mcd_matches_rust(self):
-        xs, _ = pr.datasets.stackloss()
-        loc = pr.Mcd(seed=1).fit(xs).location
+        xs, _ = rp.datasets.stackloss()
+        loc = rp.Mcd(seed=1).fit(xs).location
         np.testing.assert_allclose(loc, RUST_MCD_SEED1_LOC, rtol=0, atol=1e-9)
 
     def test_loss_theory_matches_rust(self):
         # Exact theory values prove AnyLoss delegates psi/psi_prime/rho_sup, not
         # just rho/psi/weight: a stubbed derivative would move these numbers.
-        assert pr.Huber().gaussian_efficiency() == pytest.approx(RUST_HUBER_EFF, abs=1e-12)
-        assert pr.Tukey().gaussian_efficiency() == pytest.approx(RUST_TUKEY_EFF, abs=1e-12)
+        assert rp.Huber().gaussian_efficiency() == pytest.approx(RUST_HUBER_EFF, abs=1e-12)
+        assert rp.Tukey().gaussian_efficiency() == pytest.approx(RUST_TUKEY_EFF, abs=1e-12)
         # avar is the reciprocal of efficiency, a second independent path.
-        assert pr.Huber().asymptotic_variance() == pytest.approx(1.0 / RUST_HUBER_EFF, abs=1e-12)
+        assert rp.Huber().asymptotic_variance() == pytest.approx(1.0 / RUST_HUBER_EFF, abs=1e-12)
 
 
 class TestSklearnCrossReference:
@@ -72,7 +72,7 @@ class TestSklearnCrossReference:
         x = np.vstack([rng.normal(size=(40, 2)), np.full((5, 2), 8.0)])
         injected = set(range(40, 45))
 
-        pr_flags = set(np.where(pr.Mcd(seed=1).fit(x).outliers(0.975))[0].tolist())
+        pr_flags = set(np.where(rp.Mcd(seed=1).fit(x).outliers(0.975))[0].tolist())
         sk = MinCovDet(random_state=0).fit(x)
         sk_flags = set(np.where(sk.mahalanobis(x) > chi2.ppf(0.975, 2))[0].tolist())
 
@@ -83,8 +83,8 @@ class TestSklearnCrossReference:
 
     def test_mcd_location_close_to_sklearn(self):
         MinCovDet = pytest.importorskip("sklearn.covariance").MinCovDet
-        xs, _ = pr.datasets.stackloss()
-        pr_loc = pr.Mcd(seed=1).fit(xs).location
+        xs, _ = rp.datasets.stackloss()
+        pr_loc = rp.Mcd(seed=1).fit(xs).location
         sk_loc = MinCovDet(random_state=0).fit(xs).location_
         # Different corrections/subset search ⇒ close, not identical.
         np.testing.assert_allclose(pr_loc, sk_loc, rtol=0.10)
@@ -96,6 +96,6 @@ class TestStatsmodelsCrossReference:
     def test_huber_matches_rlm(self):
         sm = pytest.importorskip("statsmodels.api")
         x, y = _stars()
-        pr_beta = pr.MEstimator(pr.Huber(1.345), pr.Mad()).fit(x, y).coefficients
+        pr_beta = rp.MEstimator(rp.Huber(1.345), rp.Mad()).fit(x, y).coefficients
         rlm = sm.RLM(y, x, M=sm.robust.norms.HuberT(t=1.345)).fit()
         np.testing.assert_allclose(pr_beta, rlm.params, rtol=0.02)

@@ -5,7 +5,7 @@ on:
   pull_request:
 
 jobs:
-  # Pure-Rust gates for the two library crates. `pyrobust` is excluded here: it
+  # Pure-Rust gates for the two library crates. `robust-py` is excluded here: it
   # is a Python extension (cdylib linking against the host interpreter), so it is
   # built and tested in the `python` job below via maturin.
   rust:
@@ -22,19 +22,19 @@ jobs:
       - name: Format
         run: cargo fmt --all --check
       - name: Clippy
-        run: cargo clippy --workspace --exclude pyrobust --all-targets -- -D warnings
+        run: cargo clippy --workspace --exclude robust-py --all-targets -- -D warnings
       - name: Build
-        run: cargo build --workspace --exclude pyrobust --all-targets
+        run: cargo build --workspace --exclude robust-py --all-targets
       - name: Test
-        run: cargo test --workspace --exclude pyrobust
+        run: cargo test --workspace --exclude robust-py
       - name: Doc
-        run: cargo doc --workspace --exclude pyrobust --no-deps
+        run: cargo doc --workspace --exclude robust-py --no-deps
         env:
           RUSTDOCFLAGS: "-D warnings"
       - name: Doc tests
-        run: cargo test --doc --workspace --exclude pyrobust
+        run: cargo test --doc --workspace --exclude robust-py
 
-  # The pyrobust Python bindings: clippy the Rust side, then build the extension
+  # The robust-py Python bindings: clippy the Rust side, then build the extension
   # with maturin and run the pytest suite against it.
   python:
     runs-on: ubuntu-latest
@@ -47,7 +47,7 @@ jobs:
         with:
           python-version: "3.11"
       - name: Clippy (bindings)
-        run: cargo clippy -p pyrobust --features extension-module -- -D warnings
+        run: cargo clippy -p robust-py --features extension-module -- -D warnings
       - name: Set up venv and tooling
         run: |
           python -m venv .venv
